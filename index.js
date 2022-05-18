@@ -38,6 +38,20 @@ async function run() {
               res.send(result)
           })
 
+          app.put('/todolist/:id', async (req, res) => {
+            const id = req.params.id
+            const updatedTodo = req.body
+            const filter = { _id: ObjectId(id) };
+            const options = { upsert: true };
+            const updateDocument = {
+                $set: updatedTodo
+            };
+            const result = await todoCollection.updateOne(filter, updateDocument, options)
+
+            res.send(result)
+
+        })
+
           app.delete('/todolist/:id',async(req,res)=>{
             const id = req.params.id 
             const query = {_id: ObjectId(id)}
